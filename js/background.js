@@ -174,6 +174,13 @@ function startListeners ({blocklist, allowedHosts, entityList}) {
     ['blocking']
   )
 
+  browser.windows.onFocusChanged.addListener((windowID) => {
+    log('browser.windows.onFocusChanged, windowID: ' + windowID)
+    browser.tabs.query({active: true, windowId: windowID}, (tabsArray) => {
+      currentActiveTabID = tabsArray[0].id
+    })
+  })
+
   browser.tabs.onActivated.addListener(function (activeInfo) {
     currentActiveTabID = activeInfo.tabId
   })
